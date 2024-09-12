@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shrek Explica a CLT - Jogo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Shrek Explica a CLT</h1>
+    <img id="shrek" src="assets/shrek.jpg" alt="Shrek">
+    
+    <div class="speech-bubble">
+        <p id="shrek-dialogue">Olá, humano! Vamos ver se você entende de CLT. Use as teclas 1, 2 ou 3 para responder!</p>
+    </div>
+
+    <div class="question" id="question">O que significa CLT?</div>
+
+    <button class="answer-btn" id="btn1" onclick="checkAnswer(1)">Consolidação das Leis Trabalhistas</button>
+    <button class="answer-btn" id="btn2" onclick="checkAnswer(2)">Contrato Livre de Trabalho</button>
+    <button class="answer-btn" id="btn3" onclick="checkAnswer(3)">Código de Leis do Trabalhador</button>
+
+    <div id="result"></div>
+
+    <script>
+        let correctAnswer = 1;
+        let score = 0;
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === '1') {
+                checkAnswer(1);
+                highlightButton(1);
+            } else if (event.key === '2') {
+                checkAnswer(2);
+                highlightButton(2);
+            } else if (event.key === '3') {
+                checkAnswer(3);
+                highlightButton(3);
+            }
+        });
+
+        function checkAnswer(answer) {
+            let result = document.getElementById("result");
+            let shrekDialogue = document.getElementById("shrek-dialogue");
+            
+            if (answer === correctAnswer) {
+                result.innerHTML = "Correto! O Burro vai ficar orgulhoso de você!";
+                score++;
+            } else {
+                result.innerHTML = "Errado! Tente novamente.";
+            }
+
+            nextQuestion();
+        }
+
+        function nextQuestion() {
+            setTimeout(function () {
+                let questionEl = document.getElementById("question");
+                let resultEl = document.getElementById("result");
+
+                if (score === 1) {
+                    questionEl.innerHTML = "Quantas horas de trabalho semanal são permitidas pela CLT?";
+                    correctAnswer = 2;
+                    document.querySelectorAll('.answer-btn')[0].innerHTML = "30 horas";
+                    document.querySelectorAll('.answer-btn')[1].innerHTML = "44 horas";
+                    document.querySelectorAll('.answer-btn')[2].innerHTML = "50 horas";
+                } else if (score === 2) {
+                    questionEl.innerHTML = "Qual é o direito garantido pela CLT ao trabalhador após 12 meses de trabalho?";
+                    correctAnswer = 1;
+                    document.querySelectorAll('.answer-btn')[0].innerHTML = "Férias remuneradas";
+                    document.querySelectorAll('.answer-btn')[1].innerHTML = "Aumento de salário";
+                    document.querySelectorAll('.answer-btn')[2].innerHTML = "Trabalho remoto";
+                } else if (score === 3) {
+                    questionEl.innerHTML = "Você completou o jogo com sucesso! Parabéns!";
+                    document.querySelectorAll('.answer-btn').forEach(btn => btn.style.display = 'none');
+                }
+
+                resultEl.innerHTML = ""; // Limpa o resultado anterior
+            }, 1500);
+        }
+
+        function highlightButton(btnId) {
+            let button = document.getElementById(`btn${btnId}`);
+            button.classList.add("highlight");
+            setTimeout(() => {
+                button.classList.remove("highlight");
+            }, 500);
+        }
+    </script>
+</body>
+</html>
